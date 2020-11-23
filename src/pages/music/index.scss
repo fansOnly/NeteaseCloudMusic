@@ -1,0 +1,78 @@
+.search-record ,.search-hot {
+  padding: 0 30px 30px;
+}
+.title-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 0;
+}
+.title {
+  font-size: 30px;
+}
+.at-icon-trash {
+  font-size: 30px;
+}
+.search-record-list {
+  display: flex;
+  align-items: center;
+}
+.search-record-item {
+  margin: 0 10px 10px 0;
+  padding: 8px 26px;
+  background: #eee;
+  border-radius: 2em;
+
+}
+.search-hot-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  & .sort {
+    width: 50px;
+    color: #333;
+    font-size: 30px;
+  }
+  & .cont {
+    flex: 1;
+    font-size: 26px;
+  }
+  & .top {
+    display: flex;
+    align-items: center;
+  }
+  & .name {
+    margin-right: 12px;
+    color: #000;
+    font-size: 30px;
+  }
+  & .bold {
+    font-weight: 500;
+  }
+  & .red {
+    color: red;
+  }
+  & .score {
+    margin-right: 10px;
+    color: #aaa;
+  }
+  & .icon0,
+  & .icon1 {
+    width: 54px; // 81
+    height: 28px; // 42
+  }
+  & .icon2 {
+    width: 60px; // 90
+    height: 28px; // 42
+  }
+  & .icon5 {
+    width: 24px; // 36
+    height: 28px; // 42
+  }
+  & .bottom {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+    color: #aaa;
+  }
+}

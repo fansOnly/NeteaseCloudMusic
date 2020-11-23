@@ -1,0 +1,34 @@
+// 重置ui框架样式
+.custom-checkbox {
+  position: static;
+  background: none;
+  &::before, &::after {
+    display: none;
+  }
+  & .at-checkbox__option {
+    padding: 0;
+  }
+  & .at-checkbox__option-wrap {
+    padding: 0;
+  }
+  & .at-checkbox__icon-cnt {
+    margin: 0;
+  }
+}
+.at-modal__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100px;
+  text-align: center;
+}
+.at-list__item .item-content__info-note {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+.custom-slider slider {
+  margin: 0;
+}

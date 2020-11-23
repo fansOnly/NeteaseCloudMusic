@@ -1,0 +1,57 @@
+.user-header {
+  padding: 30px;
+  background: #444;
+  color: #fff;
+}
+.user-hd-profile {
+  display: flex;
+  justify-content: space-between;
+  // margin-top: 20px;
+}
+.user-hd-name {
+  font-size: 60px;
+  font-weight: 500;
+}
+.user-hd-vip {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.user-hd-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+}
+.user-hd-statistics {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.user-hd-ss-item {
+  margin-right: 50px;
+}
+.user-hd-ss-item__num {
+  font-size: 50px;
+  font-weight: 500;
+}
+.user-hd-ss-item__txt {
+  color: #ddd;
+  font-size: 24px;
+}
+.user-body {
+  padding: 20px 0;
+}
+.user-logout {
+  width: 90%;
+  height: 90px;
+  margin: 40px auto;
+  background: #444;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 30px;
+  text-align: center;
+  line-height: 90px;
+}

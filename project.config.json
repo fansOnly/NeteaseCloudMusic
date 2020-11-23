@@ -1,0 +1,119 @@
+{
+  "miniprogramRoot": "dist/",
+  "projectname": "NeteaseCloudMusic",
+  "description": "网易云音乐beta3.0.1",
+  "appid": "wx589ef18b017e6104",
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "enhance": false,
+    "postcss": true,
+    "preloadBackgroundData": false,
+    "minified": true,
+    "newFeature": false,
+    "coverView": true,
+    "nodeModules": false,
+    "autoAudits": false,
+    "showShadowRootInWxmlPanel": true,
+    "scopeDataCheck": false,
+    "uglifyFileName": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "compileHotReLoad": false,
+    "useMultiFrameRuntime": false,
+    "useApiHook": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "bundle": false,
+    "useIsolateContext": true,
+    "useCompilerModule": true,
+    "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
+    "packNpmManually": false,
+    "packNpmRelationList": [],
+    "minifyWXSS": true
+  },
+  "compileType": "miniprogram",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "libVersion": "2.14.0",
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "歌单详情",
+          "pathName": "pages/playlist/index",
+          "query": "id=2674592987",
+          "scene": null
+        },
+        {
+          "name": "搜索页",
+          "pathName": "pages/search/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "搜索结果",
+          "pathName": "pages/search/result/index",
+          "query": "keywords=杀死那个石家庄人",
+          "scene": null
+        },
+        {
+          "name": "歌曲详情",
+          "pathName": "pages/song/detail/index",
+          "query": "id=386844",
+          "scene": null
+        },
+        {
+          "name": "登录",
+          "pathName": "pages/login/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "注册/修改密码",
+          "pathName": "pages/login/register/index",
+          "query": "type=register",
+          "scene": null
+        },
+        {
+          "name": "个人中心",
+          "pathName": "pages/mine/index",
+          "query": "type=register",
+          "scene": null
+        },
+        {
+          "name": "歌手详情",
+          "pathName": "pages/artist/detail/index",
+          "query": "id=2116",
+          "scene": null
+        },
+        {
+          "name": "mv详情",
+          "pathName": "pages/mv/detail/index",
+          "query": "id=186025",
+          "scene": null
+        },
+        {
+          "name": "专辑详情",
+          "pathName": "pages/album/detail/index",
+          "query": "id=98561258",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

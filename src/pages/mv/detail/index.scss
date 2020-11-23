@@ -1,0 +1,50 @@
+.mv-play {
+  width: 100%;
+  height: 500px;
+}
+.mv-video {
+  width: 100%;
+  height: 100%;
+}
+.mv-desc {
+  padding: 30px;
+  background: #eee;
+}
+.mv-name {
+  color: #444;
+  font-size: 50px;
+  font-weight: 500;
+}
+.mv-play-count {
+  margin-top: 10px;
+}
+.mv-options {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.mv-options-item {
+  display: flex;
+  align-items: center;
+  margin-right: 30px;
+  & .at-icon {
+    margin-right: 15px;
+  }
+  & .at-icon-heart-2 {
+    color: #ee433a;
+  }
+}
+.mv-artist {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+.mv-artist-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 100%;
+  background: #ccc;
+}
+.mv-artist-name {
+  margin-left: 10px;
+}

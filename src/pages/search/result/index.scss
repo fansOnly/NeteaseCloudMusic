@@ -1,0 +1,27 @@
+.search-type-wrap {
+  padding: 20px;
+}
+.search-type-list {
+  white-space: nowrap;
+}
+.search-type-item {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 28px;
+  &.on {
+    color: red;
+    &::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 0;
+      border-top: 2px solid red;
+    }
+  }
+}
+.search-list {
+  padding: 20px;
+}

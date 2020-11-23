@@ -1,0 +1,147 @@
+page {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #333;
+  font-size: 28px;
+  line-height: 1.2;
+}
+.border-top {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 0;
+    -webkit-transform: scaleY(0.5);
+      -ms-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+  border-top: 1PX solid #d6e4ef;
+  }
+}
+.border-bottom {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0;
+    -webkit-transform: scaleY(0.5);
+      -ms-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+  border-bottom: 1PX solid #d6e4ef;
+  }
+}
+.icon-size {
+  font-size: 40px;
+}
+.secondary-title {
+  color: #999;
+  font-size: 24px;
+}
+.active:active {
+  background: #eee;
+}
+.line-clamp-1 {
+  overflow:hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.line-clamp-2 {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+}
+.align-center {
+  text-align: center;
+}
+
+
+// user-list
+.user-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+.user-list-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 4px;
+}
+.user-list-info {
+  flex: 1;
+  padding-left: 30px;
+}
+.user-list-name {
+  font-size: 30px;
+}
+.user-list-artist {
+  margin-top: 12px;
+}
+.user-list-statistics {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  color: #999;
+  font-size: 24px;
+  & .item {
+    margin-right: 10px;
+  }
+  & .span {
+    display: inline-block;
+    margin-left: 5px;
+    color: #ee433a;
+  }
+}
+.user-list-tags,
+.user-list-more {
+  margin-left: 20px;
+  white-space: nowrap;
+}
+
+// 图片列表一
+.pic-card-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.pic-card-item {
+  width: 30%;
+  margin-bottom: 30px;
+}
+.pic-card-image {
+  position: relative;
+}
+.pic-card-img {
+  width: 100%;
+  height: 200px;
+  border-radius: 5px;
+}
+.pic-card-tag {
+  position: absolute;
+  right: 0;
+  bottom: 20px;
+  display: inline-block;
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, .4);
+  border-radius: 4px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+}
+.pic-card-desc {
+  margin-top: 10px;
+}
+.pic-card-title {
+  font-size: 30px;
+}
+.pic-card-txt {
+  margin-top: 10px;
+}
