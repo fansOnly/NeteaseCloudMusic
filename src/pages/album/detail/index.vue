@@ -17,31 +17,17 @@
   </view>
 </view>
 <view class="artist-top-songs">
-  <view class="artist-top-songs-bar">
+  <view class="song-list-title-bar">
     <view class="play">
       <view class="play-area" @tap="handleMultiPlay">
         <view class="at-icon at-icon-play"></view> 播放全部
       </view>
       <view class="secondary-title">{{albumDetail.size}}首</view>
       </view>
-    <view class="more"><view class="at-icon at-icon-filter icon-size"></view></view>
+    <view class="more secondary-color"><view class="at-icon at-icon-filter icon-size"></view></view>
   </view>
   <view v-if="albumSongList.length" class="artist-top-songs-list">
-    <template v-for="(item, index) in albumSongList" :key="'artist-song-'+index">
-      <view class="user-list-item border-bottom active">
-        <image class="user-list-img" :src="item.al.picUrl" />
-        <view class="user-list-info">
-          <view class="user-list-name">{{item.name}}</view>
-          <view class="user-list-artist secondary-title">{{item.ar[0].name}}</view>
-        </view>
-        <view v-if="item.mv" class="user-list-tags">
-          <view class="at-icon at-icon-video icon-size"></view>
-        </view>
-        <view class="user-list-more">
-          <view class="at-icon at-icon-link icon-size"></view>
-        </view>
-      </view>
-    </template>
+    <SongList :data-list="albumSongList" />
   </view>
 </view>
 <Player />
@@ -49,6 +35,8 @@
 
 <script lang="ts">
 import Player from '@/components/player/Player.vue'
+import SongList from '@/components/song/SongList.vue'
+
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { reactive, readonly, ref } from 'vue'
 import { album, albumSub } from '@/services/album'
@@ -123,7 +111,8 @@ export default {
     }
   },
   components: {
-    Player
+    Player,
+    SongList
   }
 }
 </script>

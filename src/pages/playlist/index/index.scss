@@ -1,0 +1,42 @@
+.all-cats {
+  display: flex;
+  align-items: center;
+}
+.some-cats {
+  flex: 1;
+  overflow-x: scroll;
+}
+.show-all-cats {
+  display: inline-block;
+  margin-left: 30px;
+  padding: 10px 30px;
+  background: #ddd;
+  border-radius: 2em;
+}
+.pl-cats-body {
+  padding: 0 30px;
+}
+.pl-allcats-title {
+  font-size: 50px;
+  font-weight: 500;
+}
+.pl-subcats-list {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 30px 0;
+}
+.pl-subcats-item {
+  display: inline-block;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  padding: 10px 30px;
+  background: #ddd;
+  border-radius: 2em;
+  text-align: center;
+  vertical-align: top;
+  &.on {
+    background: #ee433a;
+    color: #fff;
+  }
+}

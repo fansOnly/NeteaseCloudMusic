@@ -11,87 +11,44 @@
     <view class="artist-follow" @tap="handleArtistSub">{{ artistDetail.followed ? '取消关注' : '关注'}}</view>
   </view>
 </view>
-<view class="artist-top-songs">
-  <view class="artist-top-songs-bar">
-    <view class="title">热门歌曲</view>
-    <view class="more" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多<view class="at-icon at-icon-chevron-right"></view></view>
-  </view>
-  <view v-if="hotSongList.length" class="artist-top-songs-list">
-    <template v-for="(item, index) in hotSongList" :key="'artist-song-'+index">
-      <view class="user-list-item border-bottom active">
-        <image class="user-list-img" :src="item.al.picUrl" />
-        <view class="user-list-info">
-          <view class="user-list-name">{{item.name}}</view>
-          <view class="user-list-artist secondary-title">{{artistVal(item.ar)}}</view>
-        </view>
-        <view v-if="item.mv" class="user-list-tags">
-          <view class="at-icon at-icon-video icon-size"></view>
-        </view>
-        <view class="user-list-more">
-          <view class="at-icon at-icon-link icon-size"></view>
-        </view>
-      </view>
-    </template>
-  </view>
-</view>
-<view class="artist-top-songs">
-  <view class="artist-top-songs-bar">
-    <view class="title">专辑</view>
-    <view class="more" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多<view class="at-icon at-icon-chevron-right"></view></view>
-  </view>
-  <view v-if="artistAlbumList.length" class="pic-card-list artist-area">
-    <template v-for="(item, index) in artistAlbumList" :key="'artist-album-'+index">
-      <view class="pic-card-item">
-        <view class="pic-card-image"><image class="pic-card-img" :src="item.picUrl" /></view>
-        <view class="pic-card-desc">
-          <view class="pic-card-title line-clamp-1">{{item.name}}</view>
-          <view class="pic-card-txt secondary-title">{{formatDate(item.publishTime, 'YYYY-MM-DD')}}</view>
-        </view>
-      </view>
-    </template>
-  </view>
-</view>
-<view class="artist-top-songs">
-  <view class="artist-top-songs-bar">
-    <view class="title">MV</view>
-    <view class="more" @tap="handleRoute(`/pages/mv/detail/index?id=${artistid}`)">更多<view class="at-icon at-icon-chevron-right"></view></view>
-  </view>
-  <view v-if="artistMvList.length" class="pic-card-list artist-area">
-    <template v-for="(item, index) in artistMvList" :key="'artist-mv-'+index">
-      <view class="pic-card-item" @tap="handleRoute(`/pages/mv/detail/index?id=${artistid}`)">
-        <view class="pic-card-image">
-          <image class="pic-card-img" :src="item.imgurl" />
-          <view class="pic-card-tag">{{timestampToDate(item.duration / 1000)}}</view>
-        </view>
-        <view class="pic-card-desc">
-          <view class="pic-card-title line-clamp-1">{{item.name}}</view>
-          <view class="pic-card-txt secondary-title">播放：{{item.playCount}}</view>
-        </view>
-      </view>
-    </template>
-  </view>
-</view>
-<view class="artist-top-songs">
-  <view class="artist-top-songs-bar">
-    <view class="title">相似艺人</view>
-    <view class="more" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多<view class="at-icon at-icon-chevron-right"></view></view>
-  </view>
-  <view v-if="artistSimiList.length" class="pic-card-list artist-area">
-    <template v-for="(item, index) in artistSimiList" :key="'artist-simi-'+index">
-      <view class="pic-card-item">
-        <view class="pic-card-image">
-          <image class="pic-card-img" style="border-radius:100%;" :src="item.picUrl" />
-        </view>
-        <view class="pic-card-desc align-center">
-          <view class="pic-card-title line-clamp-1">{{item.name}}</view>
-        </view>
-      </view>
-    </template>
-  </view>
-</view>
+  <view class="cn-title-bar artist-top-songs">
+      <view class="cn-title">热门歌曲</view>
+      <view class="cn-action" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多</view>
+    </view>
+  <SongList :data-list="hotSongList" />
+
+    <!-- 专辑 -->
+    <view class="cn-title-bar artist-top-songs">
+      <view class="cn-title">专辑</view>
+      <view class="cn-action" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多</view>
+    </view>
+    <view class="section">
+      <AlbumList :data-list="artistAlbumList" />
+    </view>
+    <!-- mv -->
+    <view class="cn-title-bar">
+      <view class="cn-title">MV</view>
+      <view class="cn-action" @tap="handleRoute(`/pages/artist/songs/index?id=${artistid}`)">更多</view>
+    </view>
+    <MvCardList :data-list="artistMvList" />
+    <!-- 相似艺人 -->
+    <view class="cn-title-bar">
+      <view class="cn-title">相似艺人</view>
+      <view class="cn-action" @tap="handleRoute('/pages/artist/songs/index')">更多</view>
+    </view>
+    <view class="section">
+      <ArCardList :data-list="artistSimiList" />
+    </view>
+<Player />
 </template>
 
 <script lang="ts">
+import Player from '@/components/player/Player.vue'
+import SongList from '@/components/song/SongList.vue'
+import AlbumList from '@/components/album/AlbumList.vue'
+import ArCardList from '@/components/artist/ArCardList.vue'
+import MvCardList from '@/components/mv/MvCardList.vue'
+
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { reactive, readonly, ref } from 'vue'
 import { artists, artistAlbum, artistMv, artistSimi, artistSub } from '@/services/artist'
@@ -151,7 +108,10 @@ export default {
     const apiGetArtistMv = async () => {
       const { code, mvs } = await artistMv(artistid)
       if (code === 200) {
-        artistMvList.value = mvs.slice(0, 6)
+        artistMvList.value = mvs.map(v => {
+          v.cover = v.imgurl
+          return v
+        }).slice(0, 4)
       }
     }
     apiGetArtistMv()
@@ -190,6 +150,13 @@ export default {
       handleArtistSub,
       handleRoute
     }
+  },
+  components: {
+    Player,
+    SongList,
+    AlbumList,
+    ArCardList,
+    MvCardList,
   }
 }
 </script>

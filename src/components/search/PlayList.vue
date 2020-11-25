@@ -34,7 +34,7 @@ export default {
     setup() {
       const handleRoute = id => {
         Taro.navigateTo({
-          url: `/pages/playlist/index?id=${id}`
+          url: `/pages/playlist/detail/index?id=${id}`
         })
       }
 

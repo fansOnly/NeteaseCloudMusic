@@ -42,18 +42,13 @@
     </view>
   </template>
 </ActionPanel>
-  <AtModal
-    :is-opened="visibleName === 'delete-modal'"
-    cancelText='取消'
-    confirmText='确认'
-    @confirm="handleConfirmDelete"
-    @cancel="handleCancelDelete"
-    content='从列表移除该歌曲'
-  />
+  <CustomModal :visible="visibleName === 'delete-modal'" content="从列表移除该歌曲" @confirm="handleConfirmDelete" @cancel="handleCancelDelete" />
 </template>
 
 <script lang="ts">
 import ActionPanel from '@/components/func/ActionPanel.vue'
+import CustomModal from '@/components/func/CustomModal.vue'
+
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -146,6 +141,7 @@ export default {
   },
   components: {
     ActionPanel,
+    CustomModal
   }
 }
 </script>

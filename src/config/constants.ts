@@ -52,3 +52,56 @@ export const PLAY_EFFECTS = [
   { name: '礼堂', value: '10', icon: 'at-icon-equalizer' },
   { name: '大殿', value: '11', icon: 'at-icon-equalizer' },
 ]
+
+// 全部新碟分类
+export const ALBUM_NEW_CLASSIFY = [
+  { name: '全部', value: 'ALL' },
+  { name: '华语', value: 'ZH' },
+  { name: '欧美', value: 'EA' },
+  { name: '韩国', value: 'KR' },
+  { name: '日本', value: 'JP' },
+]
+
+// 全部歌手类型分类
+export const ARTIST_TYPES = [
+  { name: '全部', value: -1 },
+  { name: '男歌手', value: 1 },
+  { name: '女歌手', value: 2 },
+  { name: '乐队', value: 3 },
+]
+
+// 全部歌手地区分类
+export const ARTIST_AREAS = [
+  { name: '全部', value: -1 },
+  { name: '华语', value: 7 },
+  { name: '欧美', value: 96 },
+  { name: '日本', value: 8 },
+  { name: '韩国', value: 16 },
+  { name: '其他', value: 0 },
+]
+
+// 全部mv地区
+export const MV_AREAS = [
+  { name: '全部', value: '全部' },
+  { name: '内地', value: '内地' },
+  { name: '港台', value: '港台' },
+  { name: '欧美', value: '欧美' },
+  { name: '日本', value: '日本' },
+  { name: '韩国', value: '韩国' },
+]
+
+// 全部mv类型
+export const MV_TYPES = [
+  { name: '全部', value: '全部' },
+  { name: '官方版', value: '官方版' },
+  { name: '原生', value: '原生' },
+  { name: '现场版', value: '现场版' },
+  { name: '网易出品', value: '网易出品' },
+]
+
+// 全部mv排序
+export const MV_ORDERS = [
+  { name: '上升最快', value: '上升最快' },
+  { name: '最热', value: '最热' },
+  { name: '最新', value: '最新' },
+]

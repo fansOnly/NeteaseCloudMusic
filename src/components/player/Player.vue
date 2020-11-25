@@ -1,6 +1,6 @@
 <template>
 <!-- 播放器 -->
-<view :class="['player', songx.id ? 'show' : null]" @tap="handlePlayerDetail">
+<view :class="['player', songx.id ? 'show' : null]">
   <view class="cover cover-rotate" :style="{'animation-play-state': playerx.paused ? 'paused' : 'running'}"><image class="cover-image" :src="songx.al.picUrl" /></view>
   <view class="song">
     <view class="name">{{songx.name}}</view>
@@ -10,21 +10,19 @@
     </view>
   </view>
   <view class="control">
-    <view v-if="playerx.paused" class="at-icon at-icon-play" @tap.stop="handlePlay"></view>
-    <view v-else class="at-icon at-icon-pause" @tap.stop="handlePause"></view>
+    <view v-if="playerx.paused" class="at-icon at-icon-play" @tap="handlePlay"></view>
+    <view v-else class="at-icon at-icon-pause" @tap="handlePause"></view>
   </view>
-  <view class="like"><view class="at-icon at-icon-heart" @tap.stop="handleLike"></view></view>
-  <view class="option"><view class="at-icon at-icon-playlist" @tap.stop="handleShowPlayList"></view></view>
+  <view class="like"><view :class="['at-icon', songx.liked ? 'at-icon-heart-2' : 'at-icon-heart']" @tap="handleLike"></view></view>
+  <view class="option"><view class="at-icon at-icon-chevron-up" @tap="handlePlayerDetail"></view></view>
 </view>
-<!-- 播放列表 -->
-<AtFloatLayout :isOpened="visibleName === 'song-similist'" title="播放列表" @close="visibleName = ''">
-</AtFloatLayout>
-<!-- 播放器详情 -->
 <PlayerDetail />
 </template>
 
 <script lang="ts">
 import PlayerDetail from '@/components/player/PlayerDetail.vue'
+
+import Taro from '@tarojs/taro'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { likeSong } from '@/services/song'
@@ -48,13 +46,15 @@ export default {
       }
 
     const handleLike = async () => {
-      const data = await likeSong(songx.value.id)
-      console.log('data: ', data);
-      if (data?.code === 200) {}
-    }
-
-    const handleShowPlayList = () => {
-      visibleName.value = 'song-similist'
+      const data = await likeSong(songx.value.id, !songx.value.liked)
+      if (data?.code === 200) {
+        store.dispatch('player/UPDATE_SONG', { liked: !songx.value.liked })
+        Taro.showToast({
+          title: `${songx.value.liked ? '收藏成功' : '取消收藏'}`,
+          icon: 'none',
+          duration: 1500
+        })
+      }
     }
 
       return {
@@ -65,7 +65,6 @@ export default {
         handleLike,
         handlePause,
         handlePlayerDetail,
-        handleShowPlayList
       }
   },
   components: {
@@ -115,6 +114,9 @@ export default {
     margin-left: 10px;
     color: #fff;
     font-size: 50px;
+  }
+  & .at-icon-heart-2 {
+    color: #ee433a;
   }
 }
 @keyframes rotate {

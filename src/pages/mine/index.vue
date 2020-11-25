@@ -40,6 +40,7 @@
         arrow='right'
         :hasBorder="false"
         :iconInfo="{ size: 25, color: '#ee433a', value: 'calendar', }"
+        @click="handleSignIn"
       />
       <AtListItem
         title='定时关闭'
@@ -80,12 +81,15 @@
     </AtList>
   </view>
   <view class="user-logout" @tap="handleLogout">退出</view>
+  <Player />
 </template>
 
 <script lang="ts">
+import Player from '@/components/player/Player.vue'
+
 import Taro from '@tarojs/taro'
 import { reactive, ref } from 'vue'
-import { getUserDetail } from '@/services/user'
+import { userDetail, daySignin } from '@/services/user'
 import { logout } from '@/services/common'
 import './index.scss'
 
@@ -95,6 +99,7 @@ export default {
       frontColor: '#ffffff',
       backgroundColor: '#444444'
     })
+
     const isLogin = !!Taro.getStorageSync('token')
     if (!isLogin) {
       Taro.redirectTo({
@@ -116,12 +121,26 @@ export default {
     const handleSwitchChange = (val: boolean) => {
       nightMode.value = !val
     }
+    const handleSignIn = async () => {
+      const data = await daySignin()
+      if (data?.code === 200) {
+        Taro.showToast({
+          title: '签到成功',
+          icon: 'none',
+          duration: 1500
+        })
+      }
+    }
     const handleRoute = (url: string) => {
       Taro.navigateTo({url})
     }
     const handleLogout = async () => {
       const data = await logout()
       if (data?.code === 200) {
+        Taro.removeStorageSync('profile')
+        Taro.removeStorageSync('token')
+        Taro.removeStorageSync('cookie')
+        Taro.removeStorageSync('loginType')
         Taro.showToast({
           title: '退出登录',
           icon: 'none',
@@ -136,7 +155,7 @@ export default {
     }
     const uid = Taro.getStorageSync('profile').userId
     const apiGetUserDetail = async () => {
-      const { code, profile: { avatarUrl, nickname, vipType, userType, followeds, follows, eventCount }, profile, listenSongs } = await getUserDetail(uid)
+      const { code, profile: { avatarUrl, nickname, vipType, userType, followeds, follows, eventCount }, profile, listenSongs } = await userDetail(uid)
       if (code == 200) {
         user.avatarUrl = avatarUrl
         user.nickname = nickname
@@ -155,8 +174,12 @@ export default {
       nightMode,
       handleSwitchChange,
       handleRoute,
+      handleSignIn,
       handleLogout
     }
+  },
+  components: {
+    Player
   }
 }
 </script>

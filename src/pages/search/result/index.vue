@@ -24,6 +24,7 @@ import PlayList from '@/components/search/PlayList.vue'
 import VideoList from '@/components/search/VideoList.vue'
 import ArtistList from '@/components/search/ArtistList.vue'
 import Player from '@/components/player/Player.vue'
+
 import Taro, { getCurrentInstance } from '@tarojs/taro'
 import { onMounted, reactive, ref } from 'vue'
 import { searchDefault, searchSongs } from '@/services/search'

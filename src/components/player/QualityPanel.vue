@@ -1,5 +1,5 @@
 <template>
-<ActionPanel :visible="visible" :hHeight="77" @confirm="handleCancel" @cancel="handleCancel" >
+<ActionPanel :visible="visible" :hHeight="70" @confirm="handleCancel" @cancel="handleCancel" >
   <template #action-panel-header>
     <view class="song-quality-header">
       <view class="left">
@@ -58,18 +58,16 @@ export default {
     const { qualityList }: any = toRefs(props)
     const auto = ref(playerx.value.autoqa)
     const quality = ref(props.qualityValue)
-    const stopQaWatch = watchEffect(() => {
+    watchEffect(() => {
       if (qualityList.value.length) {
         if (auto.value) {
           const qa = qualityList.value.filter(v => !v.tip).slice(-1)[0].value
           if (!quality.value) {
             quality.value = qa
             emit('update', qa)
-            stopQaWatch()
           }
         } else {
           emit('update', 'nq')
-          stopQaWatch()
         }
       }
     })

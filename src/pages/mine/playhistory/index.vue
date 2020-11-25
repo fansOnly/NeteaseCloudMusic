@@ -1,27 +1,16 @@
 <template>
   <view v-if="userRecordList.length" class="user-record">
-    <template v-for="(item, index) in userRecordList" :key="'user-record-'+index">
-      <view class="user-list-item border-bottom">
-        <image class="user-list-img" :src="item.avatarUrl" />
-        <view class="user-list-info">
-          <view class="user-list-name">{{item.nickname}}</view>
-          <view class="user-list-statistics">
-            <view class="item">动态<view class="span">{{item.eventCount}}</view></view>
-            <view class="item">关注<view class="span">{{item.follows}}</view></view>
-            <view class="item">粉丝<view class="span">{{item.list}}</view></view>
-          </view>
-        </view>
-        <view class="user-list-more">
-          <view class="at-icon at-icon-link icon-size"></view>
-        </view>
-      </view>
-    </template>
+    <SongList :data-list="userRecordList" />
   </view>
   <Empty v-else />
+  <Player />
 </template>
 
 <script lang="ts">
+import SongList from '@/components/song/SongList.vue'
 import Empty from '@/components/common/Empty.vue'
+import Player from '@/components/player/Player.vue'
+
 import Taro from '@tarojs/taro'
 import { ref } from 'vue'
 import { userRecord } from '@/services/user'
@@ -39,7 +28,7 @@ export default {
       // 默认查询一周的记录
       const data = await userRecord(uid, 1)
       if (data?.code === 200) {
-        userRecordList.value = data.weekData
+        userRecordList.value = data.weekData.map(v => v.song)
       }
     }
     apiGetUserRecord()
@@ -48,7 +37,9 @@ export default {
     }
   },
   components: {
-    Empty
+    Empty,
+    SongList,
+    Player
   }
 }
 </script>

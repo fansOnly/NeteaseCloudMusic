@@ -11,10 +11,13 @@
     </view>
   </view>
   <!-- 貌似picker组件不兼容3.0 -->
-  <!-- <Picker v-show="openName === 'timedoff-picker'" mode="selector" :value="customVal.value" @change="handleChange" @cancel="handleCancel" /> -->
+  <!-- <Picker v-show="visibleName === 'timedoff-picker'" mode="selector" :value="customVal.value" @change="handleChange" @cancel="handleCancel" /> -->
+  <Player />
 </template>
 
 <script lang="ts">
+import Player from '@/components/player/Player.vue'
+
 import { computed, reactive, ref } from 'vue'
 import './index.scss'
 import { useStore } from 'vuex'
@@ -78,5 +81,8 @@ export default {
       handleCheck,
     }
   },
+  components: {
+    Player
+  }
 }
 </script>

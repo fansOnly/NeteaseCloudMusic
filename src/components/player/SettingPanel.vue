@@ -86,6 +86,7 @@
 
 <script lang="ts">
 import ActionPanel from '@/components/func/ActionPanel.vue'
+
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -168,32 +169,9 @@ export default {
   }
 }
 .song-options {
-  padding-bottom: 20px;
+  padding: 30px 0;
 }
 .song-options-title {
   padding: 30px;
-}
-.song-options-item {
-  display: flex;
-  align-items: center;
-  padding: 20px 30px;
-  & .text {
-    margin-left: 20px;
-    font-size: 32px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  & .tag {
-    margin-left: 10px;
-    padding: 4px 10px;
-    background: #ee433a;
-    border-radius: 2em;
-    color: #FFF;
-    font-size: 18px;
-  }
-  & .at-icon-heart-2 {
-    color: #ee433a;
-  }
 }
 </style>

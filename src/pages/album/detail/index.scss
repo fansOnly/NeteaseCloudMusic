@@ -75,25 +75,3 @@
 .artist-top-songs {
   margin-top: 30px;
 }
-.artist-top-songs-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-  padding: 0 30px;
-  line-height: 60px;
-  & .play {
-    display: flex;
-    align-items: center;
-  }
-  & .play-area {
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    color: #ee433a;
-    font-weight: 500;
-  }
-  & .more {
-    color: #444;
-  }
-}

@@ -1,4 +1,13 @@
 import { get } from "@/utils/http";
+import { BaseListParam } from "@/utils/interface";
+interface mvListParam extends BaseListParam {
+  type?: number;
+  area?: string;
+  order?: string;
+}
+
+// 全部mv
+export const mvAll = (params: mvListParam, limit: number = 10) => get('/mv/all', {limit, ...params})
 
 // mv详情
 export const mvDetail = (mvid: string) => get('/mv/detail', {mvid})

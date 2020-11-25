@@ -1,10 +1,10 @@
 const _toString = Object.prototype.toString
 
-const isPlainObject = (obj: any) => {
+const isPlainObject = (obj: any): boolean => {
   return _toString.call(obj) === '[object Object]'
 }
 
-const isEmptyObject = (obj: Object) => {
+const isEmptyObject = (obj: Object): boolean => {
   return isPlainObject && Object.keys(obj).length === 0
 }
 
@@ -71,7 +71,7 @@ const timestampToDate = (durationms: number, unit: boolean = false): string => {
  * 格式化音频大小
  * @param size
  */
-const formatMusicSize = (size: number) => {
+const formatMusicSize = (size: number): string => {
   return (size / (1024 * 1024)).toFixed(2) + 'MB'
 }
 
@@ -79,7 +79,7 @@ const formatMusicSize = (size: number) => {
  * 格式化音频码率
  * @param br
  */
-const formatMusicBr = (br: number) => {
+const formatMusicBr = (br: number): string => {
   // TODO 未知公式...
   const rand = (Math.random() * 99).toFixed(1)
   return rand + 'kHz'
@@ -90,7 +90,7 @@ const formatMusicBr = (br: number) => {
  * @param arr
  * @param exclude 排除的元素集合
  */
-const getRandFromArray = (arr: Array<any>, exclude: Array<any> = []) => {
+const getRandFromArray = <T>(arr: T[], exclude: T[]): T => {
   if (exclude.length) {
     arr = arr.filter(v => !exclude.includes(v))
   }
@@ -99,13 +99,36 @@ const getRandFromArray = (arr: Array<any>, exclude: Array<any> = []) => {
 }
 
 /**
+ * 获取数组随机多项
+ * @param arr
+ * @param size
+ */
+const getRandsFromArray = <T>(arr: T[], size: number = 0): T[] => {
+  let res: T[] = []
+  while (size > 0) {
+      const randIndex = ~~(Math.random() * arr.length)
+      res = res.concat(arr.splice(randIndex, 1))
+      size--
+  }
+  return res
+}
+
+/**
  * 生成区间随机数
  * @param start
  * @param end
  */
-const createRangeRandNumber = (start: number, end: number) => {
+const createRangeRandNumber = (start: number, end: number): number => {
   const last = end - start + 1
   return ~~(Math.random() * last + start)
+}
+
+/**
+ * 格式化数字
+ * @param num
+ */
+const formatNumber = (num: number) => {
+  return num >= 1e5 ? num >= 1e8 ? (num / 1e8).toFixed(2) + '亿' :  (num / 1e4).toFixed(2) + '万' : num
 }
 
 export {
@@ -115,6 +138,8 @@ export {
   formatMusicSize,
   isEmptyObject,
   getRandFromArray,
+  getRandsFromArray,
   formatMusicBr,
   createRangeRandNumber,
+  formatNumber
 };

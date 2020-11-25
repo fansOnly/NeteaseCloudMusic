@@ -55,7 +55,7 @@
       "list": [
         {
           "name": "歌单详情",
-          "pathName": "pages/playlist/index",
+          "pathName": "pages/playlist/detail/index",
           "query": "id=2674592987",
           "scene": null
         },
@@ -111,6 +111,36 @@
           "name": "专辑详情",
           "pathName": "pages/album/detail/index",
           "query": "id=98561258",
+          "scene": null
+        },
+        {
+          "name": "我的音乐",
+          "pathName": "pages/music/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "全部新碟",
+          "pathName": "pages/album/new/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "全部歌手",
+          "pathName": "pages/artist/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "全部mv",
+          "pathName": "pages/mv/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "全部歌单",
+          "pathName": "pages/playlist/index/index",
+          "query": "",
           "scene": null
         }
       ]

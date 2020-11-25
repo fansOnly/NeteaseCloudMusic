@@ -20,6 +20,7 @@ interface ResponseDataType {
 const cfgOptions: ResponseOptionsType = {
   header: {
     "content-type": "application/json",
+    "Cookie": ""
   },
   dataType: "json",
   timeout: 5000,
@@ -35,6 +36,10 @@ const interceptor = function (chain: any) {
   const token = Taro.getStorageSync("token");
   if (!!token) {
     header.Authorization = token;
+  }
+  const cookie = Taro.getStorageSync("cookie")
+  if (!!cookie) {
+    header.Cookie = cookie
   }
 
   console.log(`request:: ${method || "GET"} --> ${url} data: `, data);

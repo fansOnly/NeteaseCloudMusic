@@ -1,23 +1,26 @@
 <template>
   <view v-if="userPrivateList.length" class="user-private">
     <template v-for="(item, index) in userPrivateList" :key="'user-private-'+index">
-      <view class="user-list-item">
-        <image class="user-list-img" src="" />
-        <view class="user-list-info">
-          <view class="user-list-name line-clamp-2"></view>
-          <view class="user-list-artist"></view>
+      <view class="song-list-item">
+        <image class="song-list-img" src="" />
+        <view class="song-list-info">
+          <view class="song-list-name line-clamp-2"></view>
+          <view class="song-list-artist"></view>
         </view>
-        <view class="user-list-more">
+        <view class="song-list-more">
           <view class="at-icon at-icon-link"></view>
         </view>
       </view>
     </template>
   </view>
   <Empty v-else />
+  <Player />
 </template>
 
 <script lang="ts">
+import Player from '@/components/player/Player.vue'
 import Empty from '@/components/common/Empty.vue'
+
 import Taro from '@tarojs/taro'
 import { ref } from 'vue'
 import { userPrivate } from '@/services/user'
@@ -39,6 +42,7 @@ export default {
     }
   },
   components: {
+    Player,
     Empty
   }
 }

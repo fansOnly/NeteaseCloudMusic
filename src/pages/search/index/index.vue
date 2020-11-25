@@ -19,10 +19,10 @@
         <template v-for="(item, index) in searchHotList" :key="'search-hot-'+index">
         <view class="search-hot-item">
           <view :class="['sort', index < 3 ? 'red' : null]">{{index+1}}</view>
-          <view class="cont">
+          <view class="cont" @tap="handleQuickSearch(item.searchWord)">
             <view class="top">
               <view :class="['name', index < 3 ? 'bold' : null]">{{item.searchWord}}</view>
-              <view class="score">{{item.score}}</view>
+              <view class="score">搜索指数：{{item.score}}</view>
               <image v-if="item.iconUrl" :src="item.iconUrl" :class="`icon${item.iconType}`" />
             </view>
             <view class="bottom">{{item.content}}</view>
@@ -31,13 +31,17 @@
         </template>
       </view>
     </view>
+    <Player />
 </template>
 
 <script lang="ts">
+import Player from '@/components/player/Player.vue'
+
 import Taro from '@tarojs/taro'
 import { reactive, ref } from 'vue'
 import { searchDefault, searchHot } from '@/services/search'
 import { SearchKeyword } from '@/utils/interface'
+import { formatNumber } from '@/utils/util'
 import './index.scss'
 
 export default {
@@ -83,7 +87,10 @@ export default {
     const apiGetSearchhot = async () => {
       const { code, data } = await searchHot()
       if (code === 200) {
-        searchHotList.value = data
+        searchHotList.value = data.map(v => {
+          v.score = formatNumber(v.score)
+          return v
+        })
       }
     }
     apiGetSearchhot()
@@ -104,6 +111,9 @@ export default {
       handleClearSearchRecord,
       handleQuickSearch
     }
+  },
+  components: {
+    Player
   }
 }
 </script>

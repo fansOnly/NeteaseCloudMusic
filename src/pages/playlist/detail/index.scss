@@ -1,7 +1,7 @@
 .pl-info {
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 30px;
   background: #aaa;
 }
 .pl-cover {
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   &:not(:first-child) {
-  margin-top: 10px;
+    margin-top: 10px;
   }
 }
 .pl-name {
@@ -70,7 +70,7 @@
   line-height: 48px;
 }
 .pl-desc {
-  padding: 20px;
+  padding: 30px;
 }
 .pl-tags-item {
   margin-right: 10px;
@@ -80,56 +80,13 @@
   color: #fff;
   font-size: 20px;
 }
+.pl-intro {
+  max-height: 200px;
+  overflow-y: scroll;
+  color: #999;
+  font-size: 26px;
+  line-height: 1.5;
+}
 .pl-playlist {
-  padding: 0 20px 20px;
-}
-.pl-bar-title {
-  height: 50px;
-  margin-bottom: 10px;
-  padding: 0 10px;
-  background: #c7c5c5;
-  color: #333;
-  line-height: 50px;
-}
-.pl-songs-item {
-  display: flex;
-  align-items: center;
-  position: relative;
-  padding: 10px 20px;
-  &::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 0;
-    border-bottom: 2px solid #e5e5e5;
-  }
-  &:active {
-    background: #eee;
-  }
-}
-.pl-song-sort {
-  width: 50px;
-  color: #999;
-  font-size: 34px;
-}
-.pl-songs-info {
-  flex: 1;
-}
-.pl-songs-name {
-  font-size: 28px;
-}
-.pl-songs-desc {
-  display: flex;
-  align-items: center;
-  color: #999;
-  font-size: 24px;
-}
-.pl-songs-album {
-  margin-left: 10px;
-}
-.pl-songs-more {
-  color: #999;
-  white-space: nowrap;
+  padding-bottom: 30px;
 }

@@ -23,3 +23,6 @@ export const loginStatus = () => get('/login/status', {})
 
 // 退出登录
 export const logout = () => get('logout', {})
+
+// 刷新登录
+export const loginRefresh = () => get('/login/refresh', {})

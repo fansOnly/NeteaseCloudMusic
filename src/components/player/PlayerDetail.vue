@@ -10,11 +10,11 @@
   <template #action-panel-body>
     <view class="song-detail-wrap">
       <!-- 封面 -->
-      <view class="cover">
+      <view id="cover_p" class="cover">
         <image class="cover-img" :src="songx.al.picUrl" />
         <view class="play-progress">
           <view class="play-progress-bar" :style="{width: playerProgress}"></view>
-          <view class="play-time" :style="{'left': playerProgress}">{{playerCurrentTime}} / {{playerDuration}}</view>
+          <view id="play_time" class="play-time" :style="{'left': playerProgress}">{{playerCurrentTime}} / {{playerDuration}}</view>
         </view>
       </view>
       <!-- 基本信息 -->
@@ -40,7 +40,7 @@
         <view v-else class="at-icon at-icon-pause" @tap="handlePause"></view>
         <view class="at-icon at-icon-next" @tap="handlePlayNext"></view>
         <view class="song-like" @tap="handelLike">
-          <view :class="['at-icon', songx.t === 0 ? 'at-icon-heart' : 'at-icon-heart-2']"></view>
+          <view :class="['at-icon', songx.liked ? 'at-icon-heart-2' : 'at-icon-heart']"></view>
           <view class="count-data">{{songx.likeCount > 999 ? '999+' : songx.likeCount}}</view>
         </view>
       </view>
@@ -64,7 +64,7 @@
     </view>
   </template>
 </ActionPanel>
-<!-- </view> -->
+
 <QualityPanel :visible="visibleName === 'song-quality'" :quality-value="soundData.quality.value" :quality-list="qualityList"  @update="handleUpdateQuality" @cancel="handlePanelClose" />
 <EffectPanel :visible="visibleName === 'song-effect'" :effect-value="soundData.effect.value" @update="handleUpdateEffect" @cancel="handlePanelClose" />
 <SimiListPanel :visible="visibleName === 'song-similist'" @emitup="handleEmitUp" @cancel="handlePanelClose" />
@@ -81,7 +81,8 @@ import SimiListPanel from '@/components/player/SimiListPanel.vue'
 import SettingPanel from '@/components/player/SettingPanel.vue'
 import SharePanel from '@/components/player/SharePanel.vue'
 import AddPlaylist from '@/components/playlist/AddPlaylist.vue'
-import Taro from '@tarojs/taro'
+
+import Taro, { eventCenter, getCurrentInstance } from '@tarojs/taro'
 import { computed, reactive, readonly, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { likeSong } from '@/services/song'
@@ -97,41 +98,48 @@ export default {
     const playerx = computed(() => store.state.player.player)
     const playerCurrentTime = computed(() => timestampToDate(playerx.value.currentTime))
     const playerDuration = computed(() => timestampToDate(songx.value.dt))
-    const playerProgress = computed(() => {
-      return playerx.value.currentTime * 100 / songx.value.dt +'%'
-      // Taro.createSelectorQuery().select('#cover-wrap').fields({size: true}, function(rect){
-      //   console.log('cover-wrap: ', rect);
-      // }).exec()
-      // Taro.createSelectorQuery().select('#player-progress').boundingClientRect(function(rect){
-      //   console.log('rect: ', rect);
-      //   console.log('player-progress::', {...rect})
-      // }).exec()
-    })
+
+    // 播放条实际移动距离
+    const totalWidth = ref(0)
+    const barRealWidth = ref(0)
+    const playerProgress = computed(() => playerx.value.currentTime * (barRealWidth.value * 100 / totalWidth.value) / songx.value.dt +'%')
+    const instance: any = getCurrentInstance()
+    eventCenter.once(instance.router.onReady, () => {
+      const query = Taro.createSelectorQuery()
+        query.select('#cover_p').boundingClientRect()
+        query.select('#play_time').boundingClientRect().exec(res => {
+          // console.log('boundingClientRect::', {res})
+          totalWidth.value = res[0].width
+          barRealWidth.value = res[0].width - res[1].width
+        })
+      })
       // 全部音质列表
       const qualityList = ref<any>([])
-      watch(() => playerx.value.id, (val: string) => {
+      watch(() => songx.value.id, (val: string) => {
           if (val) {
             const { s, h, m , l } = songx.value
+            let res: any = []
             if (!isEmptyObject(l)) {
               PLAY_QUALITIES[0].br = formatMusicBr(l.br)
               PLAY_QUALITIES[0].size = formatMusicSize(l.size)
-              qualityList.value.push(PLAY_QUALITIES[0])
+              res.push(PLAY_QUALITIES[0])
             }
             if (!isEmptyObject(m)) {
               PLAY_QUALITIES[1].br = formatMusicBr(m.br)
               PLAY_QUALITIES[1].size = formatMusicSize(m.size)
-              qualityList.value.push(PLAY_QUALITIES[1])
+              res.push(PLAY_QUALITIES[1])
             }
             if (!isEmptyObject(h)) {
               PLAY_QUALITIES[2].br = formatMusicBr(h.br)
               PLAY_QUALITIES[2].size = formatMusicSize(h.size)
-              qualityList.value.push(PLAY_QUALITIES[2])
+              res.push(PLAY_QUALITIES[2])
             }
             if (!isEmptyObject(s)) {
               PLAY_QUALITIES[3].br = formatMusicBr(s.br)
               PLAY_QUALITIES[3].size = formatMusicSize(s.size)
-              qualityList.value.push(PLAY_QUALITIES[3])
+              res.push(PLAY_QUALITIES[3])
             }
+            qualityList.value = res
           }
         }, {
           immediate: true
@@ -149,7 +157,7 @@ export default {
         store.dispatch('player/PLAY_NEXT')
       }
 
-      const visibleName = ref('')
+      const visibleName = computed(() => store.state.visibles.name)
       // 音质、音效、智能模式等设置
       const soundData = reactive({
         quality: {
@@ -182,15 +190,23 @@ export default {
         })
       }
       const handelLike = async () => {
-        const data = await likeSong(playerx.value.id, songx.value.t === 0)
+        const data = await likeSong(playerx.value.id, !songx.value.liked)
         if (data?.code === 200) {
-          store.dispatch('player/UPDATE_SONG', { t: songx.value.t === 0 ? 1 : 0 })
+          store.dispatch('player/UPDATE_SONG', {
+            liked: !songx.value.liked,
+            likeCount: !songx.value.liked ? songx.value.likeCount + 1 : songx.value.likeCount - 1
+          })
+          Taro.showToast({
+            title: `${songx.value.liked ? '收藏成功' : '取消收藏'}`,
+            icon: 'none',
+            duration: 1500
+          })
         }
       }
       const handleArtistSub = async () => {
-        // TODO 未知接口返回
         const data = await artistSub(songx.value.ar[0].id, 1)
         if (data?.code === 200) {
+          // store.dispatch('player/UPDATE_SONG', {t: })
           Taro.showToast({
             title: '关注成功',
             icon: 'success',
@@ -209,13 +225,13 @@ export default {
         handlePanelClose()
       }
       const handlePanelOpen = (name: string) => {
-        visibleName.value = name
+        store.dispatch('visibles/UPDATE', name)
       }
       const handlePanelClose = () => {
-        visibleName.value = ''
+        store.dispatch('visibles/UPDATE', '')
       }
       const handleAddPlaylistDone = () => {
-        visibleName.value = ''
+        handlePanelClose()
         songCheckList.value = []
       }
       const handleEmitUp = async (name: string, val?: string[]) => {
@@ -226,7 +242,7 @@ export default {
           // TODO download
         } else {
           songCheckList.value = val;
-          visibleName.value = name;
+          store.dispatch('visibles/UPDATE', name)
         }
       }
       const handlePackup = () => {
@@ -283,11 +299,12 @@ export default {
   overflow: hidden;
   & .cover {
     position: relative;
+    border: 2px solid #f2f2f2;
   }
   & .cover-img {
+    display: block;
     width: 100%;
     height: 500px;
-    border: 2px solid #f2f2f2;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
   }
@@ -299,7 +316,7 @@ export default {
   }
   & .play-progress-bar {
     position: absolute;
-    bottom: 5PX;
+    bottom: 0;
     left: 0;
     width: 0;
     height: 2PX;
@@ -308,7 +325,7 @@ export default {
   & .play-time {
     position: absolute;
     left: 0;
-    bottom: -6PX;
+    bottom: -9PX;
     width: 70PX;
     height: 18PX;
     background: rgba(0, 0, 0, .6);

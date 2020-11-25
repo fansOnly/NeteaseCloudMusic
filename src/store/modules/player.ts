@@ -27,11 +27,12 @@ const state = {
     ar: [{id:'',name:''}],
     al: {id:'', name:''},
     dt: 0,
-    t: 0,
+    t: 0, // ？未知字段
     s: {br: 0, size: 0},
     h: {br: 0, size: 0},
     m: {br: 0, size: 0},
     l: {br: 0, size: 0},
+    liked: false,
     likeCount: 0,
     commentCount: 0,
   },

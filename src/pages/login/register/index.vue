@@ -164,9 +164,10 @@
                 })
               }
             }
-            const { token, profile, loginType, code: code3 } = await register(phone, password, captcha, nickname)
+            const { token, cookie, profile, loginType, code: code3 } = await register(phone, password, captcha, nickname)
             if (code3 === 200) {
               Taro.setStorageSync('token', token)
+              Taro.setStorageSync('cookie', cookie)
               Taro.setStorageSync('profile', profile)
               Taro.setStorageSync('loginType', loginType)
 

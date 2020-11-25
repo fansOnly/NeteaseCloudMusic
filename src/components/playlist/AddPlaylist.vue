@@ -8,43 +8,23 @@
   </template>
   <template #action-panel-body>
     <view class="add-playlist-body">
-      <view class="add-playlist" @tap="handleCreatePlaylist"><view class="at-icon at-icon-add"></view>新建歌单</view>
-      <view v-if="playList.length" class="playlist-wrap">
-        <AtList>
-          <template v-for="(item, index) in playList" :key="'playlist-item-'+index">
-            <AtListItem
-              :title='item.name'
-              :note='item.description'
-              arrow='right'
-              :thumb='item.coverImgUrl'
-              @click="handleAddToPlaylist(item.id)"
-            />
-          </template>
-        </AtList>
-      </view>
+      <view class="add-playlist" @tap="visibleName = 'create-pl'"><view class="at-icon at-icon-add"></view>新建歌单</view>
+    <PlList :data-list="playList" :handle-type="1" @clickfn="handleAddToPlaylist" />
     </view>
   </template>
 </ActionPanel>
-<AtModal :is-opened="modalVisible" @close="handleClose">
-  <AtModalHeader>新建歌单</AtModalHeader>
-  <AtModalContent>
-    <input
-        name='name'
-        type='text'
-        placeholder='歌单标题'
-        :value="plName"
-      />
-  </AtModalContent>
-  <AtModalAction> <button @tap="handleClose">取消</button> <button @tap="handleCreateConfirm">确定</button> </AtModalAction>
-</AtModal>
+<CreatePl :visible="visibleName === 'create-pl'" @confirm="handleCreatePlConfirm" @cancel="visibleName = ''"></CreatePl>
 </template>
 
 <script lang="ts">
 import ActionPanel from '@/components/func/ActionPanel.vue'
+import CreatePl from '@/components/playlist/CreatePl.vue'
+import PlList from '@/components/playlist/PlList.vue'
+
 import Taro from '@tarojs/taro'
 import { ref, toRefs, watchEffect } from 'vue'
-import { getUserPlaylist } from '@/services/user'
-import { tracksPlaylist, createPlaylist } from '@/services/playlist'
+import { userPlaylist } from '@/services/user'
+import { tracksPlaylist } from '@/services/playlist'
 
 export default {
   emits: ['back'],
@@ -60,26 +40,9 @@ export default {
   },
   setup(props, {emit}) {
     const { visible, songCheckList } = toRefs(props)
-    const uid = Taro.getStorageSync('account').id
+    const userId = Taro.getStorageSync('profile').userId
+    const visibleName = ref()
     const playList = ref([])
-    const modalVisible = ref(false)
-    const plName = ref()
-    const handleCreatePlaylist = () => {
-      modalVisible.value = true
-    }
-    const handleCreateConfirm = async () => {
-      if (!plName.value) {
-        return Taro.showToast({
-          title: '请输入歌单名称',
-          icon: 'none',
-          duration: 1500
-        })
-      }
-      const data = await createPlaylist(plName.value)
-      if (data?.code === 200) {
-        apiGetUserPlaylist()
-      }
-    }
 
     const handleAddToPlaylist = async (pid: string) => {
       const data = await tracksPlaylist('add', pid, songCheckList.value.join(','))
@@ -91,17 +54,12 @@ export default {
       }
     }
 
-    const handleClose = () => {
-      plName.value = ''
-      modalVisible.value = false
-    }
-
     const handleBack = () => {
       emit('back')
     }
 
     const apiGetUserPlaylist = async () => {
-      const data = await getUserPlaylist(uid)
+      const data = await userPlaylist(userId)
       if (data?.code === 200) {
         playList.value = data.playlist
       }
@@ -112,19 +70,22 @@ export default {
         stop()
       }
     })
+
+    const handleCreatePlConfirm = () => {
+      apiGetUserPlaylist()
+    }
     return {
       playList,
-      modalVisible,
-      plName,
-      handleCreatePlaylist,
-      handleCreateConfirm,
+      visibleName,
       handleAddToPlaylist,
-      handleClose,
       handleBack,
+      handleCreatePlConfirm
     }
   },
   components: {
     ActionPanel,
+    CreatePl,
+    PlList
   }
 }
 </script>

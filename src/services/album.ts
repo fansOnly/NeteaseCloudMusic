@@ -1,5 +1,7 @@
 import { get } from "@/utils/http";
 
+// 全部新碟
+export const albumNew = (params?: Object, area: string = 'ALL', limit: number = 30, offset: number = 0) => get('/album/new', {area, limit, offset, ...params})
 
 // 获取专辑内容
 export const album = (id: string) => get('/album', {id})
